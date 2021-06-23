@@ -97,3 +97,19 @@ The command to run on your terminal:
 ```sh
 docker run --env CHANGELOG_GITHUB_TOKEN="$CHANGELOG_GITHUB_TOKEN" --rm -v "$(pwd)":/usr/local/src/your-app ferrarimarco/github-changelog-generator -u trussworks -p terraform-aws-s3-private-bucket
 ```
+
+
+### HOW TO
+1. please clone repo first
+2. install aws cli and setup access key and secret key
+3. run Terraform command
+
+```
+$ terraform init
+$ terraform apply
+$ kubectl --kubeconfig=<generated kube config> get nodes
+$ kubectl --kubeconfig=<greerated kube config> apply -f 2048_full_latest.yaml
+$ kubectl --kubeconfig=<greerated kube config> -n game-2048 get pod
+$ kubectl --kubeconfig=<greerated kube config> -n game-2048 get svc
+$ kubectl --kubeconfig=<greerated kube config> -n game-2048 port-forward svc/service-2048 8080:80
+```

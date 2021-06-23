@@ -49,7 +49,7 @@ metadata:
     kubernetes.io/ingress.class: alb
     alb.ingress.kubernetes.io/scheme: internet-facing
     alb.ingress.kubernetes.io/target-type: ip
-    alb.ingress.kubernetes.io/certificate-arn: 
+    alb.ingress.kubernetes.io/certificate-arn: subnet-02b282a952c9bb07a,subnet-04e0b93f6bd21bf55,subnet-08f0f79012d3601b5
 spec:
   rules:
     - host: "game.dther.tf"
