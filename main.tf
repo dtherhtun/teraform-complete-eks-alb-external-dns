@@ -38,6 +38,11 @@ module "vpc" {
   azs                  = data.aws_availability_zones.available.names
   public_subnets       = ["10.0.4.0/24", "10.0.5.0/24", "10.0.6.0/24"]
   enable_dns_hostnames = true
+
+  public_subnet_tags = {
+   "kubernetes.io/role/elb" = "1"
+   "kubernetes.io/cluster/${local.cluster_name}" = "shared"
+   }
 }
 
 module "eks" {
@@ -56,7 +61,7 @@ module "eks" {
       override_instance_types = ["m5.large", "m5a.large", "m5d.large", "m5ad.large"]
       spot_instance_pools     = 4
       asg_max_size            = 5
-      asg_desired_capacity    = 5
+      asg_desired_capacity    = 3
       kubelet_extra_args      = "--node-labels=node.kubernetes.io/lifecycle=spot"
       public_ip               = true
     },

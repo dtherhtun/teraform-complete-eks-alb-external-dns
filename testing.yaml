@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+  labels:
+    env: production
+    instance: webapp
+  name: hola-ing
+  namespace: production
+spec:
+  rules:
+  - host: hola.dther.tf
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: hola-svc
+            port:
+              number: 80
+
