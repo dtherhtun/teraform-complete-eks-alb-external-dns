@@ -112,4 +112,7 @@ $ kubectl --kubeconfig=<greerated kube config> apply -f 2048_full_latest.yaml
 $ kubectl --kubeconfig=<greerated kube config> -n game-2048 get pod
 $ kubectl --kubeconfig=<greerated kube config> -n game-2048 get svc
 $ kubectl --kubeconfig=<greerated kube config> -n game-2048 port-forward svc/service-2048 8080:80
+$ kubectl --kubeconfig=<generated kube config> create -f argocd.yaml
+$ kubectl --kubeconfig=<generated kube config> create -f argo-ing.yaml
+
 ```
