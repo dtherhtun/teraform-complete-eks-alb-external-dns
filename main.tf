@@ -40,9 +40,9 @@ module "vpc" {
   enable_dns_hostnames = true
 
   public_subnet_tags = {
-   "kubernetes.io/role/elb" = "1"
-   "kubernetes.io/cluster/${local.cluster_name}" = "shared"
-   }
+    "kubernetes.io/role/elb"                      = "1"
+    "kubernetes.io/cluster/${local.cluster_name}" = "shared"
+  }
 }
 
 module "eks" {
@@ -61,7 +61,7 @@ module "eks" {
       override_instance_types = ["m5.large", "m5a.large", "m5d.large", "m5ad.large"]
       spot_instance_pools     = 4
       asg_max_size            = 5
-      asg_desired_capacity    = 3
+      asg_desired_capacity    = 2
       kubelet_extra_args      = "--node-labels=node.kubernetes.io/lifecycle=spot"
       public_ip               = true
     },
@@ -72,7 +72,7 @@ module "eks" {
 
 resource "aws_iam_policy" "worker_policy" {
   name        = "worker-policy"
-  description = "Worker policy for the ALB Ingress"
+  description = "Worker policy for the Ingress"
 
   policy = file("iam-policy.json")
 }
@@ -86,18 +86,16 @@ provider "helm" {
 }
 
 resource "helm_release" "ingress" {
-  name      = "aws-load-balancer-controller"
+  name      = "ingress-nginx"
+  chart     = "./ingress-nginx"
   namespace = "kube-system"
-  chart     = "./aws-load-balancer-controller"
 
-  set {
-    name  = "clusterName"
-    value = local.cluster_name
-  }
-
-  set {
-    name  = "rbac.create"
-    value = "true"
+  dynamic "set" {
+    for_each = var.settings
+    content {
+      name  = set.key
+      value = set.value
+    }
   }
 }
 

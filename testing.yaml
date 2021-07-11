@@ -20,4 +20,3 @@ spec:
             name: hola-svc
             port:
               number: 80
-
